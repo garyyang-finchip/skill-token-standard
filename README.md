@@ -29,7 +29,7 @@ Skill Object Model     deterministic DAG-CBOR object graph, per-file CIDs (off-c
 
 | Network | Contract | Token #1 |
 |---|---|---|
-| Sepolia | [`0x12cc1a5319c6F08bFB50982e3814A376A59fE550`](https://sepolia.etherscan.io/address/0x12cc1a5319c6F08bFB50982e3814A376A59fE550) | finchip-daily-finance-brief v0.3.1 |
+| Sepolia | [`0x12cc1a5319c6F08bFB50982e3814A376A59fE550`](https://sepolia.etherscan.io/address/0x12cc1a5319c6F08bFB50982e3814A376A59fE550) | the `public-v1` frozen sample vector |
 
 Mint tx [`0x3d4f0d6f…d599a36`](https://sepolia.etherscan.io/tx/0x3d4f0d6ffccc9f788cee09283d50c4e765905628b592c5b3a72081e34d599a36)
 (block 11261685). The genesis `SkillUpdated` event carries `mdHash ‖ packageHash ‖ version`
@@ -148,5 +148,5 @@ and strict UTF-8 on the primary document.
 ## License
 
 Specification and reference code released under [CC0](LICENSE).
-Test vectors embed the `finchip-daily-finance-brief` skill (MIT) as real-world sample content.
+Test vectors embed a real-world sample skill package (MIT) as sample content.
 `x-test-sha256-xor-stream-v1` is a NON-CRYPTOGRAPHIC TEST profile — never use it in production.
