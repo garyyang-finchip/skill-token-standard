@@ -65,6 +65,16 @@ scripts/ec2_e2e.sh       build -> test -> deploy -> mint -> verify-from-chain
 vectors-objects-bundle.tar.gz   insurance copy of all vectors/*/objects/
 ```
 
+Run the offline verifier regression tests (Python standard library only):
+
+```bash
+python3 -m unittest discover -s tools/skill-pack -p 'test_*.py' -v
+```
+
+The tests verify all six frozen vectors and recommit malformed manifests with
+matching CIDs and package hashes, so schema rejection is tested independently
+of byte integrity. Unknown manifest fields remain allowed.
+
 ## Quick start (EC2 / Linux, the exact proven path)
 
 ```bash
