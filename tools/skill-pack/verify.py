@@ -20,6 +20,26 @@ def fail(msg):
 def step(msg):
     print(f"  [OK] {msg}")
 
+def check_manifest(manifest):
+    # Mirror schemas/manifest.schema.json without adding a runtime dependency.
+    # Unknown fields remain allowed, including namespaced extensions.
+    if not isinstance(manifest, dict):
+        fail("manifest must be an object")
+    for field in ("schemaVersion", "name", "skillVersion", "summary", "entrypoint"):
+        if field not in manifest:
+            fail(f"manifest missing {field}")
+        if not isinstance(manifest[field], str):
+            fail(f"manifest.{field} must be a string")
+        if field != "schemaVersion" and not manifest[field]:
+            fail(f"manifest.{field} must not be empty")
+    for field in ("skillType", "standard"):
+        if field in manifest and not isinstance(manifest[field], str):
+            fail(f"manifest.{field} must be a string")
+    if "scopes" in manifest:
+        scopes = manifest["scopes"]
+        if not isinstance(scopes, list) or any(not isinstance(s, str) for s in scopes):
+            fail("manifest.scopes must be an array of strings")
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("out_dir")
@@ -121,7 +141,11 @@ def main():
         plain[md_path].decode("utf-8")
     except UnicodeDecodeError:
         fail("primary document is not valid UTF-8")
-    manifest = json.loads(plain["manifest.json"])
+    try:
+        manifest = json.loads(plain["manifest.json"])
+    except (ValueError, UnicodeDecodeError):
+        fail("manifest is not valid JSON")
+    check_manifest(manifest)
     entry = root["entry"]
     if manifest["entrypoint"] != entry["path"]: fail("manifest.entrypoint != entry.path")
     print(f"  entrypoint: {entry['path']}  profile: {entry['profile']}")
